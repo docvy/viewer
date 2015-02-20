@@ -1,0 +1,8 @@
+{
+  "angularJs": "../node_modules/angular/angular.js",
+  "bootflatCss": "../node_modules/bootflat/bootflat/css/bootflat.min.css",
+  "bootstrapCss": "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "bootstrapJs": "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+  "flatuiCss": "../node_modules/flat-ui/css/flat-ui.css",
+  "jqueryJs": "../node_modules/jquery/dist/jquery.min.js"
+}

@@ -1,0 +1,42 @@
+{
+  "name": "docvy-browser",
+  "author": {
+    "name": "GochoMugo",
+    "email": "mugo@forfuture.co.ke",
+    "url": "\"\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GochoMugo/docvy-browser.git"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "undefined/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "angular": "latest",
+    "bootflat": "latest",
+    "bootstrap": "latest",
+    "flat-ui": "latest",
+    "jquery": "latest"
+  },
+  "devDependencies": {
+    "express": "latest",
+    "grunt": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-coffee": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-csslint": "latest",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-contrib-imagemin": "latest",
+    "grunt-contrib-jade": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-nodemon": "latest",
+    "grunt-contrib-sass": "latest",
+    "grunt-contrib-stylus": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest"
+  }
+}
