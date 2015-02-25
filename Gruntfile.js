@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+  "use strict";
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
     clean: {
@@ -23,10 +24,33 @@ module.exports = function(grunt) {
     copy: {
       all: {
         files: [
-          {expand: true, cwd: "src/html", src: ["*"], dest: "dist/", filter: "isFile"},
-          {expand: true, cwd: "src/css", src: ["*"], dest: "dist/css", filter: "isFile"},
-          {expand: true, cwd: "src/js", src: ["*"], dest: "dist/js", filter: "isFile"},
-          {expand: true, cwd: "src/assets", src: ["**"], dest: "dist/assets"}
+          {
+            expand: true,
+            cwd: "src/html",
+            src: ["*"],
+            dest: "dist/",
+            filter: "isFile"
+          },
+          {
+            expand: true,
+            cwd: "src/css",
+            src: ["*"],
+            dest: "dist/css",
+            filter: "isFile"
+          },
+          {
+            expand: true,
+            cwd: "src/js",
+            src: ["*"],
+            dest: "dist/js",
+            filter: "isFile"
+          },
+          {
+            expand: true,
+            cwd: "src/assets",
+            src: ["**"],
+            dest: "dist/assets"
+          }
         ]
       }
     },
@@ -41,7 +65,8 @@ module.exports = function(grunt) {
     cssmin: {
       all: {
         options: {
-          banner: "/* <%= pkg.author.name %> <<%= pkg.author.email %>> (<%= pkg.author.url %>) */"
+          banner: "/* <%= pkg.author.name %> " +
+            "<<%= pkg.author.email %>> (<%= pkg.author.url %>) */"
         },
         expand: true,
         cwd: "dist/css",
@@ -63,8 +88,8 @@ module.exports = function(grunt) {
       all: {
         options: {
           data: function() {
-            var optionsFile = (process.env.PROD) ? "prod.options.json"
-              : "dev.options.json";
+            var optionsFile = (process.env.PROD) ?
+              "prod.options.json" : "dev.options.json";
             return require("./" + optionsFile);
           }
         },
@@ -79,7 +104,7 @@ module.exports = function(grunt) {
     jshint: {
       all: {
         options: {
-          jshintrc: ".jshintrc"
+          jshintrc: true
         },
         src: ["Gruntfile.js", "dist/js/*"]
       }
@@ -121,7 +146,8 @@ module.exports = function(grunt) {
         options: {
           compress: true,
           mangle: true,
-          banner: "/* <%= pkg.author.name %> <<%= pkg.author.email %>> (<%= pkg.author.url %>) */"
+          banner: "/* <%= pkg.author.name %> " +
+            "<<%= pkg.author.email %>> (<%= pkg.author.url %>) */"
         },
         expand: true,
         cwd: "dist/js",
@@ -133,12 +159,12 @@ module.exports = function(grunt) {
     },
     watch: {
       jade: {
-        files: ["src/jade/*.jade"],
+        files: ["src/jade/**/*"],
         tasks: ["jade"],
         options: {spawn: false}
       },
       sass: {
-        files: ["src/sass/*.sass", "src/sass/*.scss"],
+        files: ["src/sass/**/*"],
         tasks: ["sass", "csslint"],
         options: {spawn: false}
       },
@@ -185,8 +211,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-watch");
 
   grunt.registerTask("test", ["csslint", "jshint"]);
-  grunt.registerTask("default", ["copy", "jade", "sass", "stylus", "coffee",
-    "test"]);
-  grunt.registerTask("dist", ["default", "cssmin", "uglify", "imagemin",
-    "clean:raw", "test"]);
+  grunt.registerTask("default", ["copy", "jade", "sass", "stylus",
+    "coffee", "test"]);
+  grunt.registerTask("dist", ["default", "cssmin", "uglify",
+    "imagemin", "clean:raw", "test"]);
 };

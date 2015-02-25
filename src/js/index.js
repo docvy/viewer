@@ -15,13 +15,17 @@ angular.module("DocvyApp", ["ngRoute", "docvy.controllers"])
   $routeProvider
 
   .when("/browse", {
-    templateUrl: "templates/browse.html",
+    templateUrl: "browse.html",
     controller: "BrowseCtrl"
   })
 
-  .when("/read/:filepath", {
-    templateUrl: "templates/read.html",
+  .when("/read/", {
+    templateUrl: "read.html",
     controller: "ReadCtrl"
+  })
+
+  .when("/server", {
+    templateUrl: "server.html"
   })
 
   // if none of the above routes are matched, use this as the fallback

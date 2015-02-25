@@ -1,0 +1,27 @@
+extends ./templates/base.jade
+
+block content
+  div.col-md-8.col-md-offset-2
+
+    // settings
+    div
+      // server port
+      div.col-sm-8
+        p Port bound by the Docvy Server
+      div.col-sm-4
+        input.form-control.center(type="number",
+          data-ng-model="server.port")
+
+    // showing installed plugins
+    div(data-ng-show="plugins.length > 0")
+      h4 Installed Plugins
+      ul.list-none
+        li(data-ng-repeat="plugin in plugins")
+          div.col-xs-4
+            img(src="{{ plugin.iconUrl }}")
+          div.col-xs-8
+            h4 {{ plugin.name }}
+            p {{ plugin.description }}
+
+
+  //<input type="checkbox" data-toggle="switch" ng-checked="settings.emailUpdates" ng-model="settings.emailUpdates">

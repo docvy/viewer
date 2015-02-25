@@ -6,54 +6,68 @@
 */
 
 
-angular.module('docvy.controllers', ["ngResource"])
-
-
-.controller("AppCtrl", ["$scope", function($scope) { }])
-
-.controller("BrowseCtrl", ["$scope", "$http", function($scope, $http) {
-  $scope.alert = { message: "ian", _class:"", visible: false };
-  $scope.content;
-
-  // showing notifications
-  function notify(_message) {
-    $scope.alert.message = _message;
-    $scope.alert._class = "info";
-    var box = {
-      danger: function() { $scope.alert._class = "danger"; return box; },
-      info: function() { $scope.alert._class = "info"; return box; },
-      success: function() { $scope.alert._class = "success"; return box; },
-      show: function() { $scope.alert.visible = true; return box; },
-      hide: function(timeout) {
-        if (timeout) {
-          setTimeout(function() {
-            $scope.alert.visible = false;
-            $scope.$apply();
-          }, timeout * 1000);
-        } else {
-          $scope.alert.visible = false;
-        }
-        return box;
-      }
-    };
-    return box;
-  }
+/**
+* Controller for Browse view
+* Handles listing directories and files in file system
+*/
+function BrowseCtrl($scope, $location, notify, server) {
+  "use strict";
+  $scope.content = { directories: [], files: [] };
+  var notifyBox = new notify.Box($scope);
 
   // reading directories
   $scope.readdir = function(_dirpath) {
-    notify("reading directory").show();
-    var config = { };
-    if (_dirpath) { config.params = { dirpath: _dirpath }; }
-    $http.get("/files/", config)
-      .success(function(data) {
-        notify().hide();
-        $scope.content = data;
-        console.log(data);
-      })
-      .error(function(data) {
-        notify("error reading directory: " + data).danger().show().hide(7);
-      });
+    notifyBox.message("reading directory").show();
+    server.readdir(_dirpath, function(err, data) {
+      if (err) {
+        notifyBox
+          .message("error reading directory: " + err)
+          .danger().show();
+        return;
+      }
+      notifyBox.hide();
+      $scope.content = data;
+    });
   };
+
+  // reading files
+  $scope.readfile = function(_filepath) {
+    $location.url("/read/?filepath=" + _filepath);
+  };
+
   $scope.readdir(); // immediately read something
 
-}])
+}
+
+
+/**
+* Controller for Read view
+* Handles reading of files
+*/
+function ReadCtrl($scope, $routeParams, notify, server) {
+  var notifyBox = new notify.Box($scope);
+  var filepath = $routeParams.filepath;
+  notifyBox.message("reading file").info().show();
+  server.readfile(filepath, function(err, data) {
+    if (err) {
+      notifyBox
+        .message("error reading file: " + err)
+        .danger().show();
+      return;
+    }
+    notifyBox.hide();
+    $scope.content = data.data;
+  });
+}
+
+
+
+angular.module('docvy.controllers', [
+  "ngResource",
+  "docvy.services"
+])
+  .controller("AppCtrl", ["$scope", function() { }])
+  .controller("BrowseCtrl", ["$scope", "$location", "notify", "server",
+    BrowseCtrl])
+  .controller("ReadCtrl", ["$scope", "$routeParams", "notify",
+    "server", ReadCtrl]);

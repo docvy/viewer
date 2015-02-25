@@ -1,1 +1,15 @@
-{}
+{
+  "browser": true,
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "globals": {
+    "angular": false
+  },
+  "indent": 2,
+  "maxlen": 72,
+  "node": true,
+  "strict": true,
+  "undef": true,
+  "unused": true
+}

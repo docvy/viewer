@@ -1,2 +1,8 @@
 # output directory
 dist/
+
+# sass compiler cache
+.sass-cache/
+
+# npm-installed node modules
+node_modules/

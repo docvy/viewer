@@ -1,0 +1,18 @@
+extends ./templates/base.jade
+
+block content
+  // Showing directories
+  div(data-ng-show="content.directories.length > 0")
+    div.center
+      h3 Directories:
+    ul.list-none
+      li(data-ng-repeat="dir in content.directories")
+        a(data-ng-click="readdir(dir.path)") {{ dir.filename }}
+
+  // Showing files
+  div(data-ng-show="content.files.length > 0")
+    div.center
+      h3 Files:
+    ul.list-none
+      li(data-ng-repeat="file in content.files")
+        a(data-ng-click="readfile(file.path)") {{ file.filename }}
