@@ -4,24 +4,37 @@ block content
   div.col-md-8.col-md-offset-2
 
     // settings
-    div
+    div.settings-container
       // server port
-      div.col-sm-8
-        p Port bound by the Docvy Server
-      div.col-sm-4
-        input.form-control.center(type="number",
-          data-ng-model="server.port")
+      div
+        div.col-sm-8
+          p Port bound by the Docvy Server
+        div.col-sm-4
+          input.form-control.center(type="number",
+            data-ng-model="settings.port", value="{{ settings.port }}")
+      // hidden files
+      div
+        div.col-sm-8
+          p Ignore Dot files
+        div.col-sm-4
+          input(type="checkbox", data-toggle="switch",
+            data-ng-checked="settings.ignoreDotFiles",
+            data-ng-model="settings.ignoreDotFiles")
 
     // showing installed plugins
     div(data-ng-show="plugins.length > 0")
-      h4 Installed Plugins
-      ul.list-none
-        li(data-ng-repeat="plugin in plugins")
-          div.col-xs-4
-            img(src="{{ plugin.iconUrl }}")
-          div.col-xs-8
+      div.center-spaced
+        h3 Installed Plugins
+      ul.list-none.plugins
+        li.row(data-ng-repeat="plugin in plugins")
+          div.col-xs-2
+            img.plugin-img.img-circle(src="{{ getPluginsIconUrl(plugin) }}")
+          div.col-xs-10
             h4 {{ plugin.name }}
             p {{ plugin.description }}
 
+  script
+    | $("input[type='checkbox']").bootstrapSwitch({
+    |  size: "mini"
+    | });
 
-  //<input type="checkbox" data-toggle="switch" ng-checked="settings.emailUpdates" ng-model="settings.emailUpdates">

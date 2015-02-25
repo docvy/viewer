@@ -9,7 +9,7 @@
 /**
 * showing notifications
 */
-function notify() {
+function notify($sce) {
   "use strict";
 
   /**
@@ -21,14 +21,14 @@ function notify() {
     this.$scope = $scope;
     this.$scope.alert = {
       message: "",
-      _class:"",
+      _class:"info",
       visible: false
     };
     return this;
   }
 
   Box.prototype.message = function(_message) {
-    this.$scope.alert.message = _message;
+    this.$scope.alert.message = $sce.trustAsHtml(_message);
     return this;
   };
 
@@ -77,8 +77,21 @@ var server = (function() {
     // server variables
     this.$http = $http;
     this.port = 9432;
+    this.settings = {
+      readdir: { ignoreDotFiles: true }
+    };
+    this.lastVisitedDir;
     return this;
   }
+
+  /**
+  * Setting server port
+  *
+  * @param <port> -- {Number} port bound by server
+  */
+  Server.prototype.setPort = function(port) {
+    this.port = port;
+  };
 
   /**
   * computing root url of server
@@ -95,20 +108,42 @@ var server = (function() {
   };
 
   /**
+  * return url to plugin's www files
+  */
+  Server.prototype.getPluginsWebUrl = function() {
+    return this.getUrl("/plugins/www");
+  };
+
+  /**
   * Reading files in the file system
   *
   * @param <_dirpath> -- {String} path to directory
   * @param <callback> -- {Function} callback(err, data)
   */
   Server.prototype.readdir = function(_dirpath, callback) {
-    var config = { };
-    if (_dirpath) { config.params = { dirpath: _dirpath }; }
+    var config = { params: { } };
+    config.params = this.settings.readdir;
+    if ((! _dirpath) && this.lastVisitedDir) {
+      _dirpath = this.lastVisitedDir;
+    }
+    if (_dirpath) {
+      config.params.dirpath = _dirpath;
+      this.lastVisitedDir = _dirpath;
+    }
     this.$http.get(this.getUrl("/files/"), config)
       .success(function(data) {
+        if (_dirpath) {
+          var dir_up = _dirpath.substring(0,
+            _dirpath.lastIndexOf("/"));
+          data.directories.push({
+            filename: "..",
+            path: dir_up
+          });
+        }
         return callback(null, data);
       })
       .error(function(data) {
-        return callback(data);
+        return callback(data || new Error());
       });
   };
 
@@ -127,16 +162,27 @@ var server = (function() {
         return callback(null, data);
       })
       .error(function(data) {
-        return callback(data);
+        return callback(data || new Error());
       });
-  }
+  };
+
+  /**
+  * Getting list of plugins
+  *
+  * @param <callback> -- {Function} callback(err, plugins)
+  */
+  Server.prototype.listPlugins = function(callback) {
+    this.$http.get(this.getUrl("/plugins/list"))
+      .success(function(data) { return callback(null, data); })
+      .error(function(data) { return callback(data); });
+  };
 
   return Server;
 })();
 
 
 angular.module('docvy.services', ["ngResource"])
-  .service("notify", [notify])
+  .service("notify", ["$sce", notify])
   .service("server", ["$http", function($http) {
     return new server($http);
   }]);

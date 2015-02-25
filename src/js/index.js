@@ -25,7 +25,8 @@ angular.module("DocvyApp", ["ngRoute", "docvy.controllers"])
   })
 
   .when("/server", {
-    templateUrl: "server.html"
+    templateUrl: "server.html",
+    controller: "ServerCtrl"
   })
 
   // if none of the above routes are matched, use this as the fallback

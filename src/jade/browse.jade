@@ -1,18 +1,21 @@
 extends ./templates/base.jade
 
 block content
+  // Current directory
+  div.well.well-sm.center {{ content.currentDir }}
+
   // Showing directories
-  div(data-ng-show="content.directories.length > 0")
-    div.center
+  div.col-md-6(data-ng-show="content.directories.length > 0")
+    div.center-spaced
       h3 Directories:
-    ul.list-none
+    ul.list-none.listing
       li(data-ng-repeat="dir in content.directories")
         a(data-ng-click="readdir(dir.path)") {{ dir.filename }}
 
   // Showing files
-  div(data-ng-show="content.files.length > 0")
-    div.center
+  div.col-md-6(data-ng-show="content.files.length > 0")
+    div.center-spaced
       h3 Files:
-    ul.list-none
+    ul.list-none.listing
       li(data-ng-repeat="file in content.files")
         a(data-ng-click="readfile(file.path)") {{ file.filename }}

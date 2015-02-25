@@ -21,7 +21,7 @@ function BrowseCtrl($scope, $location, notify, server) {
     server.readdir(_dirpath, function(err, data) {
       if (err) {
         notifyBox
-          .message("error reading directory: " + err)
+          .message("error reading directory: " + err.message)
           .danger().show();
         return;
       }
@@ -50,8 +50,9 @@ function ReadCtrl($scope, $routeParams, notify, server) {
   notifyBox.message("reading file").info().show();
   server.readfile(filepath, function(err, data) {
     if (err) {
+      console.log(err);
       notifyBox
-        .message("error reading file: " + err)
+        .message("error reading file: <strong>" + err + "</strong>")
         .danger().show();
       return;
     }
@@ -60,6 +61,41 @@ function ReadCtrl($scope, $routeParams, notify, server) {
   });
 }
 
+
+/**
+* Controller for the Server view
+*/
+function ServerCtrl($scope, notify, server) {
+  var notifyBox = new notify.Box($scope);
+  $scope.settings = {};
+
+  // listing plugins
+  server.listPlugins(function(err, plugins) {
+    if (err) {
+      notifyBox.message("error retrieving list of plugins")
+        .danger().show();
+      return;
+    }
+    $scope.plugins = plugins.plugins;
+  });
+
+  // handling settings
+  $scope.settings.port = server.port;
+  $scope.settings.ignoreDotFiles = server.settings.readdir.ignoreDotFiles;
+  $scope.$watch("settings", function(newSettings, oldSettings) {
+    console.log(newSettings, oldSettings);
+    // changing port
+    if (newSettings.port !== oldSettings.port) {
+      server.setPort(newSettings.port);
+    }
+  }, true);
+
+  // www root for plugins
+  $scope.getPluginsIconUrl = function(plugin) {
+    return server.getPluginsWebUrl() + "/" + plugin.name + "/" +
+      plugin.metadata.icon;
+  };
+}
 
 
 angular.module('docvy.controllers', [
@@ -70,4 +106,5 @@ angular.module('docvy.controllers', [
   .controller("BrowseCtrl", ["$scope", "$location", "notify", "server",
     BrowseCtrl])
   .controller("ReadCtrl", ["$scope", "$routeParams", "notify",
-    "server", ReadCtrl]);
+    "server", ReadCtrl])
+  .controller("ServerCtrl", ["$scope", "notify", "server", ServerCtrl]);
