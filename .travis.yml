@@ -5,6 +5,7 @@ script: grunt test
 deploy:
   provider: npm
   email: mugo@forfuture.co.ke
+  skip_cleanup: true
   on:
     branch: master
   api_key:
