@@ -19,7 +19,7 @@ angular.module("DocvyApp", ["ngRoute", "docvy.controllers"])
     controller: "BrowseCtrl"
   })
 
-  .when("/read/", {
+  .when("/read", {
     templateUrl: "read.html",
     controller: "ReadCtrl"
   })

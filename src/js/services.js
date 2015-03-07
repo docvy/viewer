@@ -62,7 +62,7 @@ function notify($sce) {
       this.$scope.alert.visible = false;
     }
     return this;
-  }
+  };
 
   return { Box: Box };
 }
@@ -80,7 +80,7 @@ var server = (function() {
     this.settings = {
       readdir: { ignoreDotFiles: true }
     };
-    this.lastVisitedDir;
+    this.lastVisitedDir = null;
     return this;
   }
 
@@ -133,11 +133,11 @@ var server = (function() {
     this.$http.get(this.getUrl("/files/"), config)
       .success(function(data) {
         if (_dirpath) {
-          var dir_up = _dirpath.substring(0,
+          var dirUp = _dirpath.substring(0,
             _dirpath.lastIndexOf("/"));
           data.directories.push({
             filename: "..",
-            path: dir_up
+            path: dirUp
           });
         }
         return callback(null, data);
@@ -177,6 +177,13 @@ var server = (function() {
       .error(function(data) { return callback(data); });
   };
 
+  /**
+  * Closing the server
+  */
+  Server.prototype.sendCloseRequest = function() {
+    
+  };
+
   return Server;
 })();
 
@@ -184,5 +191,6 @@ var server = (function() {
 angular.module('docvy.services', ["ngResource"])
   .service("notify", ["$sce", notify])
   .service("server", ["$http", function($http) {
+    "use strict";
     return new server($http);
   }]);

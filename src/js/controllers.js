@@ -45,6 +45,7 @@ function BrowseCtrl($scope, $location, notify, server) {
 * Handles reading of files
 */
 function ReadCtrl($scope, $routeParams, notify, server) {
+  "use strict";
   var notifyBox = new notify.Box($scope);
   var filepath = $routeParams.filepath;
   notifyBox.message("reading file").info().show();
@@ -66,6 +67,7 @@ function ReadCtrl($scope, $routeParams, notify, server) {
 * Controller for the Server view
 */
 function ServerCtrl($scope, notify, server) {
+  "use strict";
   var notifyBox = new notify.Box($scope);
   $scope.settings = {};
 
@@ -81,7 +83,8 @@ function ServerCtrl($scope, notify, server) {
 
   // handling settings
   $scope.settings.port = server.port;
-  $scope.settings.ignoreDotFiles = server.settings.readdir.ignoreDotFiles;
+  $scope.settings.ignoreDotFiles = server.settings.
+    readdir.ignoreDotFiles;
   $scope.$watch("settings", function(newSettings, oldSettings) {
     console.log(newSettings, oldSettings);
     // changing port

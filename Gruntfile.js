@@ -214,5 +214,5 @@ module.exports = function(grunt) {
   grunt.registerTask("default", ["copy", "jade", "sass", "stylus",
     "coffee", "test"]);
   grunt.registerTask("dist", ["default", "cssmin", "uglify",
-    "imagemin", "clean:raw", "test"]);
+    "imagemin", "clean:raw"]);
 };

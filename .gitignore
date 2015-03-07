@@ -6,3 +6,6 @@ dist/
 
 # npm-installed node modules
 node_modules/
+
+# npm error log
+npm-debug.log

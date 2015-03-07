@@ -15,6 +15,9 @@
       "url": "https://github.com/GochoMugo/docvy-viewer/blob/master/LICENSE"
     }
   ],
+  "script": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "angular": "latest",
     "bootflat": "latest",
