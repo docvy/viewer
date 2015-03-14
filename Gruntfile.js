@@ -106,7 +106,7 @@ module.exports = function(grunt) {
         options: {
           jshintrc: true
         },
-        src: ["Gruntfile.js", "dist/js/*"]
+        src: ["Gruntfile.js", "dist/js/*", "!dist/js/*.min.js"]
       }
     },
     nodemon: {
