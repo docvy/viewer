@@ -25,6 +25,10 @@ module.exports = function(grunt) {
       all: {
         files: [
           {
+            src: "package.json",
+            dest: "dist/"
+          },
+          {
             expand: true,
             cwd: "src/html",
             src: ["*"],

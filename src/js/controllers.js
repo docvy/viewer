@@ -104,6 +104,25 @@ function ServerCtrl($scope, notify, server) {
 }
 
 
+/**
+* Controller for the Server view
+*/
+function MetaCtrl($scope, $sce, notify, server) {
+  var notifyBox = new notify.Box($scope);
+  notifyBox.message("retrieving metadata").show();
+  server.getMetadata(function(err, data) {
+    if (err) {
+      return notifyBox.message("error retrieving metadata")
+        .danger().show();
+    }
+    notifyBox.hide();
+    $scope.metadata = data;
+    $scope.metadata.license = data.license.replace(/\n/g, "<br>");
+    $scope.metadata.license = $sce.trustAsHtml($scope.metadata.license);
+  });
+}
+
+
 angular.module('docvy.controllers', [
   "ngResource",
   "docvy.services"
@@ -113,4 +132,5 @@ angular.module('docvy.controllers', [
     BrowseCtrl])
   .controller("ReadCtrl", ["$scope", "$routeParams", "notify",
     "server", ReadCtrl])
-  .controller("ServerCtrl", ["$scope", "notify", "server", ServerCtrl]);
+  .controller("ServerCtrl", ["$scope", "notify", "server", ServerCtrl])
+  .controller("MetaCtrl", ["$scope", "$sce", "notify", "server", MetaCtrl]);

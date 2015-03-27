@@ -1,0 +1,34 @@
+extends ./templates/base.jade
+
+
+block content
+  // header
+  div.meta-header.media
+    div.pull-left
+      img.media-object(src="", alt="app-icon")
+    div.media-body
+      h4.media-heading {{ metadata.name }}
+      p {{ metadata.description }}
+
+  // versions
+  div.meta-versions
+    div
+      p Version {{ metadata.version }}
+    div.component(data-ng-repeat="(name, version) in metadata.components")
+      span {{ name }} {{ version }}
+
+  // buttons
+  div.meta-buttons
+    // license 
+    button.btn.btn-default.btn-sm(data-toggle="modal",
+      data-target="#meta-license-modal") See License
+
+  // license modal
+  div#meta-license-modal.modal.fade
+    div.modal-dialog.bounceIn
+      div.modal-content
+        div.modal-header
+          button.close(type="button", data-dismiss="modal", 
+            aria-hidden="true") &times;
+        div.modal-body
+          p(data-ng-bind-html="metadata.license")

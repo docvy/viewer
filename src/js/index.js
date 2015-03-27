@@ -29,6 +29,11 @@ angular.module("DocvyApp", ["ngRoute", "docvy.controllers"])
     controller: "ServerCtrl"
   })
 
+  .when("/meta", {
+    templateUrl: "meta.html",
+    controller: "MetaCtrl"
+  })
+
   // if none of the above routes are matched, use this as the fallback
   .otherwise("/browse");
 }]);

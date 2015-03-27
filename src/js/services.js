@@ -80,6 +80,7 @@ var server = (function() {
     this.settings = {
       readdir: { ignoreDotFiles: true }
     };
+    this.metadata = null;
     return this;
   }
 
@@ -143,7 +144,7 @@ var server = (function() {
   Server.prototype.readfile = function(_filepath, callback) {
     var config = { params: { } };
     config.params.filepath = _filepath;
-    config.params.expects = ["html", "*"];
+    config.params.expects = ["html"];
     this.$http.get(this.getUrl("/file/"), config)
       .success(function(data) {
         return callback(null, data);
@@ -172,6 +173,20 @@ var server = (function() {
       .success(function(data) { return callback(null, data); })
       .error(function(data) { return callback(data); });
   };
+
+  /**
+  * Getting application metadata
+  */
+  Server.prototype.getMetadata = function(callback) {
+    if (this.metadata) { return callback(null, this.metadata); }
+    var _this = this;
+    this.$http.get("/meta/metadata.json")
+      .success(function(data) {
+        _this.metadata = data;
+        return callback(null, data);
+      })
+      .error(function(data) { return callback(data); })
+  }
 
   return Server;
 })();
