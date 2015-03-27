@@ -2,7 +2,8 @@ extends ./templates/base.jade
 
 block content
   // Current directory
-  div.well.well-sm.center {{ content.currentDir }}
+  div.bottom-label
+    span {{ content.currentDir }}
 
   // Showing directories
   div.col-md-6(data-ng-show="content.directories.length > 0")

@@ -86,10 +86,13 @@ function ServerCtrl($scope, notify, server) {
   $scope.settings.ignoreDotFiles = server.settings.
     readdir.ignoreDotFiles;
   $scope.$watch("settings", function(newSettings, oldSettings) {
-    console.log(newSettings, oldSettings);
     // changing port
     if (newSettings.port !== oldSettings.port) {
       server.setPort(newSettings.port);
+    }
+    // ignoring dot files
+    if (newSettings.ignoreDotFiles !== oldSettings.ignoreDotFiles) {
+      server.settings.readdir.ignoreDotFiles = newSettings.ignoreDotFiles;
     }
   }, true);
 

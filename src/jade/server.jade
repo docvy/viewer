@@ -7,16 +7,16 @@ block content
     div.settings-container
       // server port
       div
-        div.col-sm-8
+        div.col-xs-8
           p Port bound by the Docvy Server
-        div.col-sm-4
+        div.col-xs-4
           input.form-control.center(type="number",
             data-ng-model="settings.port", value="{{ settings.port }}")
       // hidden files
       div
-        div.col-sm-8
+        div.col-xs-8
           p Ignore Dot files
-        div.col-sm-4
+        div.col-xs-4
           input(type="checkbox", data-toggle="switch",
             data-ng-checked="settings.ignoreDotFiles",
             data-ng-model="settings.ignoreDotFiles")

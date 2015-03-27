@@ -80,7 +80,6 @@ var server = (function() {
     this.settings = {
       readdir: { ignoreDotFiles: true }
     };
-    this.lastVisitedDir = null;
     return this;
   }
 
@@ -123,23 +122,11 @@ var server = (function() {
   Server.prototype.readdir = function(_dirpath, callback) {
     var config = { params: { } };
     config.params = this.settings.readdir;
-    if ((! _dirpath) && this.lastVisitedDir) {
-      _dirpath = this.lastVisitedDir;
-    }
     if (_dirpath) {
       config.params.dirpath = _dirpath;
-      this.lastVisitedDir = _dirpath;
     }
     this.$http.get(this.getUrl("/files/"), config)
       .success(function(data) {
-        if (_dirpath) {
-          var dirUp = _dirpath.substring(0,
-            _dirpath.lastIndexOf("/"));
-          data.directories.push({
-            filename: "..",
-            path: dirUp
-          });
-        }
         return callback(null, data);
       })
       .error(function(data) {
@@ -180,8 +167,10 @@ var server = (function() {
   /**
   * Closing the server
   */
-  Server.prototype.sendCloseRequest = function() {
-    
+  Server.prototype.sendCloseRequest = function(callback) {
+    this.$http.delete(this.getUrl("/stop"))
+      .success(function(data) { return callback(null, data); })
+      .error(function(data) { return callback(data); });
   };
 
   return Server;
