@@ -185,8 +185,8 @@ var server = (function() {
         _this.metadata = data;
         return callback(null, data);
       })
-      .error(function(data) { return callback(data); })
-  }
+      .error(function(data) { return callback(data); });
+  };
 
   return Server;
 })();

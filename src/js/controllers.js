@@ -92,7 +92,8 @@ function ServerCtrl($scope, notify, server) {
     }
     // ignoring dot files
     if (newSettings.ignoreDotFiles !== oldSettings.ignoreDotFiles) {
-      server.settings.readdir.ignoreDotFiles = newSettings.ignoreDotFiles;
+      server.settings.readdir.ignoreDotFiles =
+        newSettings.ignoreDotFiles;
     }
   }, true);
 
@@ -108,6 +109,7 @@ function ServerCtrl($scope, notify, server) {
 * Controller for the Server view
 */
 function MetaCtrl($scope, $sce, notify, server) {
+  "use strict";
   var notifyBox = new notify.Box($scope);
   notifyBox.message("retrieving metadata").show();
   server.getMetadata(function(err, data) {
@@ -133,4 +135,5 @@ angular.module('docvy.controllers', [
   .controller("ReadCtrl", ["$scope", "$routeParams", "notify",
     "server", ReadCtrl])
   .controller("ServerCtrl", ["$scope", "notify", "server", ServerCtrl])
-  .controller("MetaCtrl", ["$scope", "$sce", "notify", "server", MetaCtrl]);
+  .controller("MetaCtrl", ["$scope", "$sce", "notify", "server",
+    MetaCtrl]);
