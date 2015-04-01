@@ -192,9 +192,23 @@ var server = (function() {
 })();
 
 
+/**
+* Common utilities
+*/
+function common($location) {
+  var common = { };
+  // reading files
+  common.readfile = function(_filepath) {
+    $location.url("/read/?filepath=" + _filepath);
+  };
+  return common;
+}
+
+
 angular.module('docvy.services', ["ngResource"])
   .service("notify", ["$sce", notify])
   .service("server", ["$http", function($http) {
     "use strict";
     return new server($http);
-  }]);
+  }])
+  .service("common", ["$location", common]);

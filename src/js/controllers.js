@@ -10,7 +10,7 @@
 * Controller for Browse view
 * Handles listing directories and files in file system
 */
-function BrowseCtrl($scope, $location, notify, server) {
+function BrowseCtrl($scope, $location, common, notify, server) {
   "use strict";
   $scope.content = { directories: [], files: [] };
   var notifyBox = new notify.Box($scope);
@@ -31,9 +31,7 @@ function BrowseCtrl($scope, $location, notify, server) {
   };
 
   // reading files
-  $scope.readfile = function(_filepath) {
-    $location.url("/read/?filepath=" + _filepath);
-  };
+  $scope.readfile = common.readfile;
 
   $scope.readdir(); // immediately read something
 
@@ -128,14 +126,11 @@ function MetaCtrl($scope, $sce, notify, server) {
 /**
 * Controller for Recent files
 */
-function RecentFilesCtrl($scope, $location, server) {
+function RecentFilesCtrl($scope, $location, common, server) {
   "use strict";
   var path = "/home/.bashrc";
   $scope.recentfiles = [ { name: ".bashrc", url: path } ];
-  // reading files
-  $scope.readfile = function(_filepath) {
-    $location.url("/read/?filepath=" + _filepath);
-  }
+  $scope.readfile = common.readfile;
 }
 
 
@@ -144,12 +139,12 @@ angular.module('docvy.controllers', [
   "docvy.services"
 ])
   .controller("AppCtrl", ["$scope", function() { }])
-  .controller("BrowseCtrl", ["$scope", "$location", "notify", "server",
-    BrowseCtrl])
+  .controller("BrowseCtrl", ["$scope", "$location", "common", "notify",
+    "server", BrowseCtrl])
   .controller("ReadCtrl", ["$scope", "$routeParams", "notify",
     "server", ReadCtrl])
   .controller("ServerCtrl", ["$scope", "notify", "server", ServerCtrl])
   .controller("MetaCtrl", ["$scope", "$sce", "notify", "server",
     MetaCtrl])
-  .controller("RecentFilesCtrl", ["$scope", "$location", "server",
+  .controller("RecentFilesCtrl", ["$scope", "$location", "common", "server",
     RecentFilesCtrl]);

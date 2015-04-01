@@ -19,8 +19,10 @@ nav.navbar.navbar-default.navbar-main(role="navigation")
           a.dropdown-toggle(data-toggle="dropdown")
             i.fa.fa-clock-o
           ul.dropdown-menu
+            li(data-ng-hide="recentfiles.length")
+              p No Recent Files Found 
             li(data-ng-repeat="file in recentfiles | limitTo: 10")
-              a(data-ng-click="readfile(file.url)") {{ file.name }}
+              a(data-ng-click="readfile(file.url)", href="") {{ file.name }}
       ul.nav.navbar-nav.navbar-right
         li
           a(href="/#/server")
