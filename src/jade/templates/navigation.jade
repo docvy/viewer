@@ -30,3 +30,10 @@ nav.navbar.navbar-default.navbar-main(role="navigation")
         li
           a(href="/#/meta")
             i.fa.fa-info
+        if ! web
+          li.online-status(data-ng-controller="connectionCtrl")
+            a(href="", data-ng-click="toggle()")
+              span(data-ng-mouseleave="label = status.current",
+                data-ng-mouseover="label = 'go ' + status.toggle",
+                data-ng-init="label = status.current").status
+                {{ label | uppercase }}

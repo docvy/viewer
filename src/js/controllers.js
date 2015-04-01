@@ -134,6 +134,26 @@ function RecentFilesCtrl($scope, $location, common, server) {
 }
 
 
+/**
+* Controller for Online Status
+*/
+function connectionCtrl($scope) {
+  $scope.status = { };
+  // we start offline
+  $scope.status.current = "offline";
+  $scope.status.toggle = "online";
+  $scope.toggle = function() {
+    if ($scope.status.current === "online") {
+      $scope.status.current = "offline";
+      $scope.status.toggle = "online";
+    } else {
+      $scope.status.current = "online";
+      $scope.status.toggle = "offline";
+    }
+  };
+}
+
+
 angular.module('docvy.controllers', [
   "ngResource",
   "docvy.services"
@@ -147,4 +167,5 @@ angular.module('docvy.controllers', [
   .controller("MetaCtrl", ["$scope", "$sce", "notify", "server",
     MetaCtrl])
   .controller("RecentFilesCtrl", ["$scope", "$location", "common", "server",
-    RecentFilesCtrl]);
+    RecentFilesCtrl])
+  .controller("connectionCtrl", ["$scope", connectionCtrl]);
