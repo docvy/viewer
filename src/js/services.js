@@ -188,6 +188,20 @@ var server = (function() {
       .error(function(data) { return callback(data); });
   };
 
+  /**
+  * Switching to Online - using the remote server's API
+  */
+  Server.prototype.goOnline = function(callback) {
+    
+  }
+
+  /**
+  * Switching to Offline - using the local server's API
+  */
+  Server.prototype.goOffline = function(callback) {
+    
+  }
+
   return Server;
 })();
 

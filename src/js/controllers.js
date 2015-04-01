@@ -128,8 +128,16 @@ function MetaCtrl($scope, $sce, notify, server) {
 */
 function RecentFilesCtrl($scope, $location, common, server) {
   "use strict";
-  var path = "/home/.bashrc";
-  $scope.recentfiles = [ { name: ".bashrc", url: path } ];
+  var pathsFromServer = [ "/home/.bashrc" ];
+  $scope.recentfiles = [];
+  var current;
+  for (var index in pathsFromServer) {
+    current = pathsFromServer[index];
+    $scope.recentfiles.push({
+      name: current.substring(current.lastIndexOf("/") + 1),
+      url: current
+    });
+  }
   $scope.readfile = common.readfile;
 }
 
@@ -137,18 +145,33 @@ function RecentFilesCtrl($scope, $location, common, server) {
 /**
 * Controller for Online Status
 */
-function connectionCtrl($scope) {
+function connectionCtrl($scope, notify, server) {
+  var notifyBox = new notify.Box($scope);
   $scope.status = { };
   // we start offline
   $scope.status.current = "offline";
   $scope.status.toggle = "online";
   $scope.toggle = function() {
     if ($scope.status.current === "online") {
-      $scope.status.current = "offline";
-      $scope.status.toggle = "online";
+      server.goOffline(function(err) {
+        if (err) {
+          notifyBox.message("could not go online")
+            .danger().show();
+          return;
+        }
+        $scope.status.current = "offline";
+        $scope.status.toggle = "online";
+      });
     } else {
-      $scope.status.current = "online";
-      $scope.status.toggle = "offline";
+      server.goOnline(function(err) {
+        if (err) {
+          notifyBox.message("could not go offline")
+            .danger().show();
+          return;
+        }
+        $scope.status.current = "online";
+        $scope.status.toggle = "offline";
+      });
     }
   };
 }
@@ -168,4 +191,5 @@ angular.module('docvy.controllers', [
     MetaCtrl])
   .controller("RecentFilesCtrl", ["$scope", "$location", "common", "server",
     RecentFilesCtrl])
-  .controller("connectionCtrl", ["$scope", connectionCtrl]);
+  .controller("connectionCtrl", ["$scope", "notify", "server",
+    connectionCtrl]);
