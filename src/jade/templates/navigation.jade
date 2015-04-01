@@ -14,6 +14,13 @@ nav.navbar.navbar-default.navbar-main(role="navigation")
 
     // navbar-content
     div#navbar-collapse-1.collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li.dropdown(data-ng-controller="RecentFilesCtrl")
+          a.dropdown-toggle(data-toggle="dropdown")
+            i.fa.fa-clock-o
+          ul.dropdown-menu
+            li(data-ng-repeat="file in recentfiles | limitTo: 10")
+              a(data-ng-click="readfile(file.url)") {{ file.name }}
       ul.nav.navbar-nav.navbar-right
         li
           a(href="/#/server")

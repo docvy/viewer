@@ -130,8 +130,8 @@ var server = (function() {
       .success(function(data) {
         return callback(null, data);
       })
-      .error(function(data) {
-        return callback(data || new Error());
+      .error(function() {
+        return callback(new Error());
       });
   };
 

@@ -21,7 +21,7 @@ function BrowseCtrl($scope, $location, notify, server) {
     server.readdir(_dirpath, function(err, data) {
       if (err) {
         notifyBox
-          .message("error reading directory: " + err.message)
+          .message("error reading directory: " + data)
           .danger().show();
         return;
       }
@@ -125,6 +125,20 @@ function MetaCtrl($scope, $sce, notify, server) {
 }
 
 
+/**
+* Controller for Recent files
+*/
+function RecentFilesCtrl($scope, $location, server) {
+  "use strict";
+  var path = "/home/.bashrc";
+  $scope.recentfiles = [ { name: ".bashrc", url: path } ];
+  // reading files
+  $scope.readfile = function(_filepath) {
+    $location.url("/read/?filepath=" + _filepath);
+  }
+}
+
+
 angular.module('docvy.controllers', [
   "ngResource",
   "docvy.services"
@@ -136,4 +150,6 @@ angular.module('docvy.controllers', [
     "server", ReadCtrl])
   .controller("ServerCtrl", ["$scope", "notify", "server", ServerCtrl])
   .controller("MetaCtrl", ["$scope", "$sce", "notify", "server",
-    MetaCtrl]);
+    MetaCtrl])
+  .controller("RecentFilesCtrl", ["$scope", "$location", "server",
+    RecentFilesCtrl]);
