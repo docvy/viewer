@@ -34,6 +34,11 @@ angular.module("DocvyApp", ["ngRoute", "docvy.controllers"])
     controller: "MetaCtrl"
   })
 
+  .when("/login", {
+    templateUrl: "login.html"
+    //controller: "MetaCtrl"
+  })
+
   // if none of the above routes are matched, use this as the fallback
   .otherwise("/browse");
 }]);

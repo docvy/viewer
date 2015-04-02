@@ -72,7 +72,7 @@ function notify($sce) {
 /**
 * Server
 */
-function server(localServer, remoteServer) {
+function server($location, localServer, remoteServer, user) {
   "use strict";
 
   function Proxy() {
@@ -88,6 +88,9 @@ function server(localServer, remoteServer) {
   };
 
   Proxy.prototype.goOnline = function(callback) {
+    if (! user.isLoggedIn()) {
+      return $location.url("/login");
+    }
     // this.current = this.remote;
     return callback(new Error());
   };
@@ -121,7 +124,60 @@ function common($location) {
 }
 
 
+/**
+* User Service
+* Handles logging in and out of users
+*/
+function user(remoteServer) {
+  "use strict";
+
+  var dummyUser = {
+    username: "GochoMugo",
+    email: "mugo@forfuture.co.ke",
+    profPicUrl: "img/gocho.png"
+  };
+
+  // getting user information from local storage
+  this.getUserInformation = getUserInformation;
+  function getUserInformation() {
+    try {
+      return JSON.parse(window.localStorage.user);
+    } catch (parseError) {
+      return dummyUser;
+    }
+  }
+
+  // storing user information into local storage
+  this.storeUserInformation = storeUserInformation;
+  function storeUserInformation(changesObj) {
+    var userObj = getUserInformation();
+    for (var key in changesObj) {
+      userObj[key] = changesObj[key];
+    }
+    window.localStorage.user = JSON.stringify(userObj);
+    return userObj;
+  }
+
+  // login in user to the service
+  this.loginUser = function loginUser(loginData, callback) {
+    return callback(new Error());
+  };
+
+  // log out user
+  this.logoutUser = function() {
+    window.localStorage.user = null;
+  };
+
+  // check if user is logged in
+  this.isLoggedIn = function isLoggedIn() {
+    return Boolean(window.localStorage.user);
+  };
+
+}
+
+
 angular.module('docvy.services', ["docvy.servers"])
   .service("notify", ["$sce", notify])
-  .service("server", ["localServer", "remoteServer", server])
-  .service("common", ["$location", common]);
+  .service("server", ["$location", "localServer", "remoteServer", "user", server])
+  .service("common", ["$location", common])
+  .service("user", ["remoteServer", user]);
