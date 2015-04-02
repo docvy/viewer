@@ -7,6 +7,7 @@
 * Also. any methods that ae used internally should be named starting
 * with an underscore(_)
 */
+/* jshint ignore: start */
 var ServerInterface = (function() {
   "use strict";
 
@@ -26,6 +27,7 @@ var ServerInterface = (function() {
 
   return Interface;
 }) ();
+/* jshint ignore: end */
 
 
 /**
@@ -154,12 +156,15 @@ var LocalServer = (function() {
 })();
 
 
-function RemoteServer($http) {}
+function RemoteServer($http) {
+  "use strict";
+  $http = 1;
+}
 
 
 // Exposing the ServerInterface, LocalServer, RemoteServer in Node.js
 try {
-  exports.ServerInterface = ServerInterface;
+  exports.ServerInterface = ServerInterface; // jshint ignore: line
   exports.LocalServer = LocalServer;
   exports.RemoteServer = RemoteServer;
 } catch(err) { }

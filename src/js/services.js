@@ -73,6 +73,7 @@ function notify($sce) {
 * Server
 */
 function server(localServer, remoteServer) {
+  "use strict";
 
   function Proxy() {
     this.local = localServer;
@@ -110,12 +111,13 @@ function server(localServer, remoteServer) {
 * Common utilities
 */
 function common($location) {
-  var common = { };
+  "use strict";
+  var utils = { };
   // reading files
-  common.readfile = function(_filepath) {
+  utils.readfile = function(_filepath) {
     $location.url("/read/?filepath=" + _filepath);
   };
-  return common;
+  return utils;
 }
 
 

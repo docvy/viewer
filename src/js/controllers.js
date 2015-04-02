@@ -128,6 +128,7 @@ function MetaCtrl($scope, $sce, notify, server) {
 */
 function RecentFilesCtrl($scope, $location, common, server) {
   "use strict";
+  server = 1;
   var pathsFromServer = [ "/home/.bashrc" ];
   $scope.recentfiles = [];
   var current;
@@ -146,6 +147,7 @@ function RecentFilesCtrl($scope, $location, common, server) {
 * Controller for Online Status
 */
 function connectionCtrl($scope, notify, server) {
+  "use strict";
   var notifyBox = new notify.Box($scope);
   // we start offline
   $scope.online = false;
@@ -185,7 +187,7 @@ angular.module('docvy.controllers', [
   .controller("ServerCtrl", ["$scope", "notify", "server", ServerCtrl])
   .controller("MetaCtrl", ["$scope", "$sce", "notify", "server",
     MetaCtrl])
-  .controller("RecentFilesCtrl", ["$scope", "$location", "common", "server",
-    RecentFilesCtrl])
+  .controller("RecentFilesCtrl", ["$scope", "$location", "common",
+    "server", RecentFilesCtrl])
   .controller("connectionCtrl", ["$scope", "notify", "server",
     connectionCtrl]);
