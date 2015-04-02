@@ -18,7 +18,7 @@ function BrowseCtrl($scope, $location, common, notify, server) {
   // reading directories
   $scope.readdir = function(_dirpath) {
     notifyBox.message("reading directory").show();
-    server.readdir(_dirpath, function(err, data) {
+    server.current.readdir(_dirpath, function(err, data) {
       if (err) {
         notifyBox
           .message("error reading directory: " + data)
@@ -47,7 +47,7 @@ function ReadCtrl($scope, $routeParams, notify, server) {
   var notifyBox = new notify.Box($scope);
   var filepath = $routeParams.filepath;
   notifyBox.message("reading file").info().show();
-  server.readfile(filepath, function(err, data) {
+  server.current.readfile(filepath, function(err, data) {
     if (err) {
       console.log(err);
       notifyBox
@@ -70,7 +70,7 @@ function ServerCtrl($scope, notify, server) {
   $scope.settings = {};
 
   // listing plugins
-  server.listPlugins(function(err, plugins) {
+  server.current.listPlugins(function(err, plugins) {
     if (err) {
       notifyBox.message("error retrieving list of plugins")
         .danger().show();
@@ -80,24 +80,24 @@ function ServerCtrl($scope, notify, server) {
   });
 
   // handling settings
-  $scope.settings.port = server.port;
-  $scope.settings.ignoreDotFiles = server.settings.
+  $scope.settings.port = server.current.port;
+  $scope.settings.ignoreDotFiles = server.current.settings.
     readdir.ignoreDotFiles;
   $scope.$watch("settings", function(newSettings, oldSettings) {
     // changing port
     if (newSettings.port !== oldSettings.port) {
-      server.setPort(newSettings.port);
+      server.current.setPort(newSettings.port);
     }
     // ignoring dot files
     if (newSettings.ignoreDotFiles !== oldSettings.ignoreDotFiles) {
-      server.settings.readdir.ignoreDotFiles =
+      server.current.settings.readdir.ignoreDotFiles =
         newSettings.ignoreDotFiles;
     }
   }, true);
 
   // www root for plugins
   $scope.getPluginsIconUrl = function(plugin) {
-    return server.getPluginsWebUrl() + "/" + plugin.name + "/" +
+    return server.current.getPluginsWebUrl() + "/" + plugin.name + "/" +
       plugin.metadata.icon;
   };
 }
@@ -110,7 +110,7 @@ function MetaCtrl($scope, $sce, notify, server) {
   "use strict";
   var notifyBox = new notify.Box($scope);
   notifyBox.message("retrieving metadata").show();
-  server.getMetadata(function(err, data) {
+  server.current.getMetadata(function(err, data) {
     if (err) {
       return notifyBox.message("error retrieving metadata")
         .danger().show();
@@ -147,30 +147,26 @@ function RecentFilesCtrl($scope, $location, common, server) {
 */
 function connectionCtrl($scope, notify, server) {
   var notifyBox = new notify.Box($scope);
-  $scope.status = { };
   // we start offline
-  $scope.status.current = "offline";
-  $scope.status.toggle = "online";
+  $scope.online = false;
   $scope.toggle = function() {
-    if ($scope.status.current === "online") {
+    if ($scope.online) {
       server.goOffline(function(err) {
         if (err) {
           notifyBox.message("could not go online")
-            .danger().show();
+            .danger().show().hide(2);
           return;
         }
-        $scope.status.current = "offline";
-        $scope.status.toggle = "online";
+        $scope.online = false;
       });
     } else {
       server.goOnline(function(err) {
         if (err) {
           notifyBox.message("could not go offline")
-            .danger().show();
+            .danger().show().hide(2);
           return;
         }
-        $scope.status.current = "online";
-        $scope.status.toggle = "offline";
+        $scope.online = true;
       });
     }
   };
