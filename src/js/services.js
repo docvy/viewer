@@ -82,6 +82,10 @@ function server($location, localServer, remoteServer, user) {
     this.current = localServer;
   }
 
+  Proxy.prototype.isOnline = function() {
+    return this.remote === this.current;
+  };
+
   Proxy.prototype.goOffline = function(callback) {
     this.current = this.local;
     return callback();
@@ -157,21 +161,6 @@ function user(remoteServer) {
     window.localStorage.user = JSON.stringify(userObj);
     return userObj;
   }
-
-  // login in user to the service
-  this.loginUser = function loginUser(loginData, callback) {
-    return callback(new Error());
-  };
-
-  // log out user
-  this.logoutUser = function() {
-    window.localStorage.user = null;
-  };
-
-  // check if user is logged in
-  this.isLoggedIn = function isLoggedIn() {
-    return Boolean(window.localStorage.user);
-  };
 
 }
 

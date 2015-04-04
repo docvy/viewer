@@ -35,8 +35,8 @@ angular.module("DocvyApp", ["ngRoute", "docvy.controllers"])
   })
 
   .when("/login", {
-    templateUrl: "login.html"
-    //controller: "MetaCtrl"
+    templateUrl: "login.html",
+    controller: "ConnectionCtrl"
   })
 
   // if none of the above routes are matched, use this as the fallback

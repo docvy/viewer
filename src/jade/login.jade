@@ -2,4 +2,47 @@ extends ./templates/base.jade
 
 
 block content
-  div.col-md-6.col-md-offset-3
+  div.col-md-6.col-md-offset-3(data-ng-show="! loggingIn")
+    ul.nav.nav-tabs
+      li
+        a(href="/#/login/#login", data-toggle="tab") login
+      li
+        a(href="/#/login/#signup", data-toggle="tab") signup
+    div.tab-content
+      div#login.tab-pane.active.fade.in
+        div.form
+          div.col-xs-6
+            input.form-control(type="text", placeholder="username",
+              data-ng-model="data.username")
+          div.col-xs-6
+            input.form-control.col-xs-6(type="password", placeholder="password",
+              data-ng-model="data.password")
+          div.col-xs-12
+            button.btn.btn-primary.btn-lg.pull-right(type="button",
+              data-ng-click="login.do()") login
+        div.form.center
+          a.provider(href="", data-ng-click="login.github()")
+            div.icon
+              i.fa.fa-github
+            div.name
+              p Login with Github
+          a.provider(href="", data-ng-click="login.twitter()")
+            div.icon
+              i.fa.fa-twitter
+            div.name
+              p Login with Twitter
+      div#signup.tab-pane.fade
+        div.form
+          input.form-control(type="text", placeholder="username",
+            data-ng-model="data.username")
+          input.form-control(type="email", placeholder="email",
+            data-ng-model="data.email")
+          input.form-control(type="password", placeholder="password",
+            data-ng-model="data.password")
+          button.btn.btn-primary.btn-lg(type="button",
+            data-ng-click="signup.do()") signup
+  div.col-xs-12.login-overlay(data-ng-show="loggingIn")
+    div.center
+      p {{ progress }}...
+      i.fa.fa-cloud.rubberBand.infinite.animated
+      p {{ data.username || data.email }}

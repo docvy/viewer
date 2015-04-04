@@ -144,34 +144,42 @@ function RecentFilesCtrl($scope, $location, common, server) {
 
 
 /**
-* Controller for Online Status
+* Controller for Online Status Switch
 */
-function connectionCtrl($scope, notify, server) {
+function StatusCtrl($scope, $location, server) {
+  "use strict";
+  $scope.online = server.isOnline();
+  $scope.toggle = function() {
+    $location.url("/login");
+  };
+}
+
+
+/**
+* Controller for Connections to local and remote servers
+*/
+function ConnectionCtrl($scope, notify, server, user) {
   "use strict";
   var notifyBox = new notify.Box($scope);
-  // we start offline
-  $scope.online = false;
-  $scope.toggle = function() {
-    if ($scope.online) {
-      server.goOffline(function(err) {
-        if (err) {
-          notifyBox.message("could not go online")
-            .danger().show().hide(2);
-          return;
-        }
-        $scope.online = false;
-      });
-    } else {
-      server.goOnline(function(err) {
-        if (err) {
-          notifyBox.message("could not go offline")
-            .danger().show().hide(2);
-          return;
-        }
-        $scope.online = true;
-      });
-    }
-  };
+  $scope.loggingIn = false;
+  $scope.login = { };
+  $scope.signup = { };
+  $scope.data = { };
+  // login with username and password
+  $scope.login.do = function() {};
+  // login with github
+  $scope.login.github = function() {};
+  // login with twitter
+  $scope.login.twitter = function() {};
+  // signup
+  $scope.signup.do = function() {};
+  // automatically logins
+  $scope.data = user.getUserInformation();
+  if ($scope.data) {
+    $scope.loggingIn = true;
+    $scope.progress = "connecting to docvy-house";
+    notifyBox.message("restoring session").info().show().hide(2);
+  }
 }
 
 
@@ -189,5 +197,6 @@ angular.module('docvy.controllers', [
     MetaCtrl])
   .controller("RecentFilesCtrl", ["$scope", "$location", "common",
     "server", RecentFilesCtrl])
-  .controller("connectionCtrl", ["$scope", "notify", "server",
-    connectionCtrl]);
+  .controller("StatusCtrl", ["$scope", "$location", "server", StatusCtrl])
+  .controller("ConnectionCtrl", ["$scope", "notify", "server", "user",
+    ConnectionCtrl]);

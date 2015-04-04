@@ -12,11 +12,11 @@
   position: fixed
   bottom: 0
   left: 0
-  background: $grey-color-light
-  padding: 1px 4px 1px 2px
+  background: $color-grey-light
+  padding: 2px 12px 2px 4px
   border-radius: 0 4px 0 0
   z-index: 1000
-  color: $grey-color-dark
+  color: $color-grey-dark
   font-size: 12px
   *
     margin: 0
@@ -31,13 +31,13 @@
 // List of files/directories
 .listing a
   padding: 4px 20px
-  border: 1px solid $grey-color-light
+  border: 1px solid $color-grey-light
   border-radius: 4px
   cursor: pointer
   display: block
 
 .listing a:hover
-  background: $grey-color-light
+  background: $color-grey-light
 
 
 // settings
@@ -51,7 +51,7 @@
   display: block
   padding: 8px
   margin-bottom: 4px
-  border: 1px solid $grey-color-light
+  border: 1px solid $color-grey-light
 
 
 // plugin image
@@ -77,3 +77,33 @@
 #meta-license-modal
   .modal-header
     border-bottom: 0
+
+
+// forms for login and signup
+.form
+  padding: 20px 0
+  input
+    padding: 30px !important
+  button
+    margin-top: 15px
+
+
+// oauth2 providers in login panel
+.provider
+  margin: 8px
+  padding: 20px
+  border: 1px solid $color-grey
+  border-radius: 4px
+  display: inline-block
+  background: $color-grey-light
+  &:hover
+    text-decoration: none
+  .icon
+    float: left
+    font-size: 40px
+
+
+// Login overlay
+.login-overlay
+  i
+    font-size: 124px
