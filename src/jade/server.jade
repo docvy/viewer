@@ -28,9 +28,11 @@ block content
       ul.list-none.plugins
         li.row(data-ng-repeat="plugin in plugins")
           div.col-xs-2
-            img.plugin-img.img-circle(src="{{ getPluginsIconUrl(plugin) }}")
+            img.plugin-img(data-ng-src="{{ getPluginsIconUrl(plugin) }}",
+              onError="this.onerror=null; this.src='assets/images/plugin.png'; ")
           div.col-xs-10
-            h4 {{ plugin.name }}
+            h4
+              a(href="", data-ng-click="openLink(plugin.homepage)") {{ plugin.name }}
             p {{ plugin.description }}
 
   script
