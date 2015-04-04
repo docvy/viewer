@@ -21,6 +21,15 @@ block content
             data-ng-checked="settings.ignoreDotFiles",
             data-ng-model="settings.ignoreDotFiles")
 
+    // installing new plugins
+    div
+      div.center-spaced
+        h3 Plugins
+      p Plugins add more capability to the application by allowing to handle 
+        | files of different content-types. An almost-up-to-date list of the 
+        | available plugins is being maintained at 
+        | https://github.com/GochoMugo/docvy-app/wiki/Available-Plugins
+
     // showing installed plugins
     div(data-ng-show="plugins.length > 0")
       div.center-spaced
