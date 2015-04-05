@@ -28,27 +28,8 @@ block content
       p Plugins add more capability to the application by allowing to handle 
         | files of different content-types. An almost-up-to-date list of the 
         | available plugins is being maintained at 
-        | https://github.com/GochoMugo/docvy-app/wiki/Available-Plugins
-      div#pluginInstallPanel.panel-group
-        div.panel.panel-default
-          div.panel-heading
-            h4.panel-title
-              a(data-toggle="collapse", data-parent="#pluginInstallPanel",
-                href="#/server/#npm") Install from npm
-          div#npm.panel-collapse.collapse
-            div.panel-body
-              input.form-control(type="text", data-ng-model="pluginInstallName")
-              button.btn.btn-primary(type="button",
-                data-ng-click="installPlugin(pluginInstallName)") Install
-                div.panel.panel-default
-        div.panel.panel-default
-          div.panel-heading
-            h4.panel-title
-              a(data-toggle="collapse", data-parent="#pluginInstallPanel",
-                href="#/server/#file") Install from File
-          div#file.panel-collapse.collapse
-            div.panel-body
-              p Will install from File
+        a(href="",
+          data-ng-click="openLink('https://github.com/GochoMugo/docvy-app/wiki/Available-Plugins')") github
 
     // showing installed plugins
     div(data-ng-show="plugins.length > 0")

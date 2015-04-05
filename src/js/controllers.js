@@ -64,20 +64,24 @@ function ReadCtrl($scope, $routeParams, notify, server) {
 /**
 * Controller for the Server view
 */
-function ServerCtrl($scope, notify, server) {
+function ServerCtrl($scope, notify, server, gui) {
   "use strict";
   var notifyBox = new notify.Box($scope);
   $scope.settings = {};
+  $scope.openLink = gui.openLink;
 
   // listing plugins
-  server.current.listPlugins(function(err, plugins) {
-    if (err) {
-      notifyBox.message("error retrieving list of plugins")
-        .danger().show();
-      return;
-    }
-    $scope.plugins = plugins.plugins;
-  });
+  $scope.listPlugins = function() {
+    server.current.listPlugins(function(err, plugins) {
+      if (err) {
+        notifyBox.message("error retrieving list of plugins")
+          .danger().show();
+        return;
+      }
+      $scope.plugins = plugins.plugins;
+    });
+  };
+
 
   // handling settings
   $scope.settings.port = server.current.port;
@@ -100,6 +104,29 @@ function ServerCtrl($scope, notify, server) {
     return server.current.getPluginsWebUrl() + "/" + plugin.name + "/" +
       plugin.metadata.icon;
   };
+
+  // Installing plugins
+  $scope.installPlugin = function(name) {
+    notifyBox
+      .message("attempting to install <strong>" + name + "</strong")
+      .info().show().hide(2);
+    server.current.installPlugin(name, function(err, plugin) {
+      if (err) {
+        return notifyBox("failed to install plugin")
+          .danger().show().hide(5);
+      }
+      return notifyBox
+        .message("succesfully installed plugin <strong>" +
+          plugin.name + "</strong>")
+        .success().show().hide(2);
+      // refreshing the installed plugins
+      $scope.listPlugins();
+    });
+  };
+
+  // listing plugins
+  $scope.listPlugins();
+
 }
 
 
@@ -185,18 +212,21 @@ function ConnectionCtrl($scope, notify, server, user) {
 
 angular.module('docvy.controllers', [
   "ngResource",
-  "docvy.services"
+  "docvy.services",
+  "docvy.gui"
 ])
   .controller("AppCtrl", ["$scope", function() { }])
   .controller("BrowseCtrl", ["$scope", "$location", "common", "notify",
     "server", BrowseCtrl])
   .controller("ReadCtrl", ["$scope", "$routeParams", "notify",
     "server", ReadCtrl])
-  .controller("ServerCtrl", ["$scope", "notify", "server", ServerCtrl])
+  .controller("ServerCtrl", ["$scope", "notify", "server", "gui",
+    ServerCtrl])
   .controller("MetaCtrl", ["$scope", "$sce", "notify", "server",
     MetaCtrl])
   .controller("RecentFilesCtrl", ["$scope", "$location", "common",
     "server", RecentFilesCtrl])
-  .controller("StatusCtrl", ["$scope", "$location", "server", StatusCtrl])
+  .controller("StatusCtrl", ["$scope", "$location", "server",
+    StatusCtrl])
   .controller("ConnectionCtrl", ["$scope", "notify", "server", "user",
     ConnectionCtrl]);
