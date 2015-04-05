@@ -24,3 +24,8 @@ body(data-ng-controller="AppCtrl")
   script(src="js/services.js")
   script(src="js/controllers.js")
   script(src="js/index.js")
+  if web
+    script(src="js/behaviours-web.js")
+  else
+    script(src="js/behaviours-nw.js")
+  script(src="js/bindings.js")

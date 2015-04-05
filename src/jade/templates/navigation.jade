@@ -10,7 +10,7 @@ nav.navbar.navbar-default.navbar-main(role="navigation")
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href="/#/") Docvy
+      a.navbar-brand(href="#/") Docvy
 
     // navbar-content
     div#navbar-collapse-1.collapse.navbar-collapse
@@ -26,10 +26,10 @@ nav.navbar.navbar-default.navbar-main(role="navigation")
       ul.nav.navbar-nav.navbar-right
         if ! web
           li
-            a(href="/#/server")
+            a(href="#/server")
               i.fa.fa-cog
         li
-          a(href="/#/meta")
+          a(href="#/meta")
             i.fa.fa-info
         if ! web
           li.online-status(data-ng-controller="StatusCtrl")
