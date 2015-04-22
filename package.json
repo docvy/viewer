@@ -7,12 +7,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/GochoMugo/docvy-viewer.git"
+    "url": "https://github.com/docvy/viewer.git"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/GochoMugo/docvy-viewer/blob/master/LICENSE"
+      "url": "https://github.com/docvy/viewer/blob/master/LICENSE"
     }
   ],
   "script": {
