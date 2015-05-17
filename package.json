@@ -29,7 +29,6 @@
     "express": "latest",
     "grunt": "latest",
     "grunt-contrib-clean": "latest",
-    "grunt-contrib-coffee": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-csslint": "latest",
     "grunt-contrib-cssmin": "latest",
@@ -38,8 +37,16 @@
     "grunt-contrib-jshint": "latest",
     "grunt-nodemon": "latest",
     "grunt-contrib-sass": "latest",
-    "grunt-contrib-stylus": "latest",
     "grunt-contrib-uglify": "latest",
-    "grunt-contrib-watch": "latest"
+    "grunt-contrib-watch": "latest",
+    "grunt-karma": "latest",
+    "karma": "latest",
+    "karma-chrome-launcher": "latest",
+    "karma-firefox-launcher": "latest",
+    "karma-ie-launcher": "latest",
+    "karma-mocha": "latest",
+    "karma-node-webkit-launcher": "latest",
+    "karma-opera-launcher": "latest",
+    "karma-safari-launcher": "latest"
   }
 }

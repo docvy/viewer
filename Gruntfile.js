@@ -11,16 +11,6 @@ module.exports = function(grunt) {
           "dist/js/*.js", "! dist/js/*.min.js"]
       }
     },
-    coffee: {
-      all: {
-        expand: true,
-        cwd: "src/coffee",
-        src: ["*.coffee"],
-        dest: "dist/js",
-        ext: ".js",
-        extDot: "first"
-      }
-    },
     copy: {
       all: {
         files: [
@@ -113,6 +103,11 @@ module.exports = function(grunt) {
         src: ["Gruntfile.js", "dist/js/*", "!dist/js/*.min.js"]
       }
     },
+    karma: {
+      unit: {
+        configFile: "karma.conf.js"
+      }
+    },
     nodemon: {
       server: {
         script: "server.js",
@@ -133,16 +128,6 @@ module.exports = function(grunt) {
         ext: ".css",
         extDot: "first",
         options: {sourcemap: "none"}
-      }
-    },
-    stylus: {
-      all: {
-        expand: true,
-        cwd: "src/stylus",
-        src: ["*.styl"],
-        dest: "dist/css",
-        ext: ".css",
-        extDot: "first"
       }
     },
     uglify: {
@@ -172,11 +157,6 @@ module.exports = function(grunt) {
         tasks: ["sass", "csslint"],
         options: {spawn: false}
       },
-      stylus: {
-        files: ["src/stylus/*.styl"],
-        tasks: ["stylus", "csslint"],
-        options: {spawn: false}
-      },
       css: {
         files: ["src/css/*.css"],
         tasks: ["copy", "csslint"],
@@ -187,34 +167,33 @@ module.exports = function(grunt) {
         tasks: ["copy", "jshint"],
         options: {spawn: false}
       },
-      coffee: {
-        files: ["src/coffee/*.coffee"],
-        tasks: ["coffee", "jshint"],
-        options: {spawn: false}
-      },
       html: {
         files: ["src/html/*.html"],
         tasks: ["copy"],
+        options: {spawn: false}
+      },
+      karma: {
+        files: ["test/unit"],
+        tasks: ["karma:unit:run"],
         options: {spawn: false}
       }
     }
   });
 
   grunt.loadNpmTasks("grunt-contrib-clean");
-  grunt.loadNpmTasks("grunt-contrib-coffee");
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-csslint");
   grunt.loadNpmTasks("grunt-contrib-cssmin");
   grunt.loadNpmTasks("grunt-contrib-imagemin");
   grunt.loadNpmTasks("grunt-contrib-jade");
   grunt.loadNpmTasks("grunt-contrib-jshint");
-  grunt.loadNpmTasks("grunt-nodemon");
   grunt.loadNpmTasks("grunt-contrib-sass");
-  grunt.loadNpmTasks("grunt-contrib-stylus");
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-karma");
+  grunt.loadNpmTasks("grunt-nodemon");
 
-  grunt.registerTask("test", ["csslint", "jshint"]);
+  grunt.registerTask("test", ["csslint", "jshint", "karma"]);
   grunt.registerTask("default", ["copy", "jade", "sass", "stylus",
     "coffee", "test"]);
   grunt.registerTask("dist", ["default", "cssmin", "uglify",
