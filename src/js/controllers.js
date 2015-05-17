@@ -42,7 +42,7 @@ function BrowseCtrl($scope, $location, common, notify, server) {
 * Controller for Read view
 * Handles reading of files
 */
-function ReadCtrl($scope, $routeParams, notify, server) {
+function ReadCtrl($scope, $routeParams, $sce, notify, server) {
   "use strict";
   var notifyBox = new notify.Box($scope);
   var filepath = $routeParams.filepath;
@@ -56,7 +56,7 @@ function ReadCtrl($scope, $routeParams, notify, server) {
       return;
     }
     notifyBox.hide();
-    $scope.content = data.data;
+    $scope.content = $sce.trustAsHtml(data.data);
   });
 }
 
@@ -115,12 +115,13 @@ function ServerCtrl($scope, notify, server, gui) {
         return notifyBox("failed to install plugin")
           .danger().show().hide(5);
       }
-      return notifyBox
+      notifyBox
         .message("succesfully installed plugin <strong>" +
           plugin.name + "</strong>")
         .success().show().hide(2);
       // refreshing the installed plugins
       $scope.listPlugins();
+      return;
     });
   };
 
@@ -218,7 +219,7 @@ angular.module('docvy.controllers', [
   .controller("AppCtrl", ["$scope", function() { }])
   .controller("BrowseCtrl", ["$scope", "$location", "common", "notify",
     "server", BrowseCtrl])
-  .controller("ReadCtrl", ["$scope", "$routeParams", "notify",
+  .controller("ReadCtrl", ["$scope", "$routeParams", "$sce", "notify",
     "server", ReadCtrl])
   .controller("ServerCtrl", ["$scope", "notify", "server", "gui",
     ServerCtrl])

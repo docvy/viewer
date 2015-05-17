@@ -4,17 +4,18 @@
 */
 
 
-var nwgui = require("nw.gui");
+//var nwgui = require("nw.gui");
 
 
 function gui() {
+  "use strict";
   /**
   * Open link in Browser
   */
-  this.openLink = function(link) {
-    console.log("opening: " + link);
-    return nwgui.Shell.openExternal(link);
-  }
+//  this.openLink = function(link) {
+//    console.log("opening: " + link);
+//    return nwgui.Shell.openExternal(link);
+//  };
 
 }
 

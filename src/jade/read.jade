@@ -1,5 +1,5 @@
 extends ./templates/base.jade
 
 block content
-  div.document-container
+  div.document-container(data-ng-bind-html="content")
     | {{ content }}

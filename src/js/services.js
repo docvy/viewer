@@ -132,41 +132,42 @@ function common($location) {
 * User Service
 * Handles logging in and out of users
 */
-function user(remoteServer) {
+function user() {
   "use strict";
 
-  var dummyUser = {
-    username: "GochoMugo",
-    email: "mugo@forfuture.co.ke",
-    profPicUrl: "img/gocho.png"
-  };
+//  var dummyUser = {
+//    username: "GochoMugo",
+//    email: "mugo@forfuture.co.ke",
+//    profPicUrl: "img/gocho.png"
+//  };
 
-  // getting user information from local storage
-  this.getUserInformation = getUserInformation;
-  function getUserInformation() {
-    try {
-      return JSON.parse(window.localStorage.user);
-    } catch (parseError) {
-      return dummyUser;
-    }
-  }
+//  // getting user information from local storage
+//  this.getUserInformation = getUserInformation;
+//  function getUserInformation() {
+//    try {
+//      return JSON.parse(window.localStorage.user);
+//    } catch (parseError) {
+//      return dummyUser;
+//    }
+//  }
 
-  // storing user information into local storage
-  this.storeUserInformation = storeUserInformation;
-  function storeUserInformation(changesObj) {
-    var userObj = getUserInformation();
-    for (var key in changesObj) {
-      userObj[key] = changesObj[key];
-    }
-    window.localStorage.user = JSON.stringify(userObj);
-    return userObj;
-  }
+//  // storing user information into local storage
+//  this.storeUserInformation = storeUserInformation;
+//  function storeUserInformation(changesObj) {
+//    var userObj = getUserInformation();
+//    for (var key in changesObj) {
+//      userObj[key] = changesObj[key];
+//    }
+//    window.localStorage.user = JSON.stringify(userObj);
+//    return userObj;
+//  }
 
 }
 
 
 angular.module('docvy.services', ["docvy.servers"])
   .service("notify", ["$sce", notify])
-  .service("server", ["$location", "localServer", "remoteServer", "user", server])
+  .service("server", ["$location", "localServer", "remoteServer",
+    "user", server])
   .service("common", ["$location", common])
   .service("user", ["remoteServer", user]);

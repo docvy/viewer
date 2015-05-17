@@ -7,7 +7,8 @@
 /**
 * Open link in a new browser window
 */
-function openLink(link) {
-  return window.open(link, "_blank");
-}
+//function openLink(link) {
+//  "use strict";
+//  return window.open(link, "_blank");
+//}
 
